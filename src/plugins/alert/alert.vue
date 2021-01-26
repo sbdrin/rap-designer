@@ -1,7 +1,7 @@
 <script>
 import pluginsMixins from '../pluginsMixins';
 export default {
-	name: 'xaAlert',
+	name: 'kaAlert',
 
 	mixins: [pluginsMixins],
 
@@ -40,7 +40,7 @@ export default {
 	},
 
 	render(h) {
-		return <div class="xa-alert" style={this.styles}>
+		return <div class="ka-alert" style={this.styles}>
 			<el-alert
 				type={this.options.type}
 				title={this.title}

@@ -1,7 +1,7 @@
 import commonConfig from '@/configuration/commonConfig/basisCommonConfig';
 
 export const alertConfig = {
-	key: 'xaAlert',
+	key: 'kaAlert',
 	props: {
 		title: '成功提示的文案',
 		type: 'success',

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 
-import xaAlert from './alert/alert.vue';
+import kaAlert from './alert/alert.vue';
 import alertConfig from './alert/alertConfig';
 
 export const DEFAULT_CONFIG = [
@@ -10,7 +10,7 @@ export const DEFAULT_CONFIG = [
 
 
 const plugins = {
-	xaAlert
+	kaAlert
 };
 
 const installComponents = function () {

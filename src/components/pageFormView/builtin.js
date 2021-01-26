@@ -12,7 +12,7 @@ export const createItem = (h, item, vm) => {
 					disabled={item.options && item.options.disabled !== undefined ? item.options.disabled : false}
 					on-input={(value) => {
 						vm.handlerData({ id: item.id, value }, 'set');
-					}}
+					}} 
 				>
 					{item.unit && <template slot="append">{item.unit}</template>}
 				</el-input>

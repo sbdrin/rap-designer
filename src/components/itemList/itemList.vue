@@ -28,7 +28,7 @@
 </template>
 -
 <script>
-import draggable from "vuedraggable";
+import draggable from 'vuedraggable';
 import { extend, uuid } from '@/utils/utils';
 
 export default {
