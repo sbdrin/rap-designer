@@ -97,7 +97,6 @@
 				<div v-show="linkageEventSettingActiveIndex === 0">
 					<ul class="linkage-dialog-event">
 						<li v-for="item in linkageEvents"
-							:key='item'
 							@click="selectComponentEvent(item)"
 							:class="item.eventName === currentLinkageEvent[0] ? 'linkage-dialog-event-actived' : ''">
 							<span>{{item.eventName}}</span>
@@ -108,7 +107,6 @@
 				<div v-show="linkageEventSettingActiveIndex === 1">
 					<ul class="linkage-dialog-event">
 						<li v-for="item in pagePulgin"
-							:key='item'
 							@click="selectLinkageComponent(item)"
 							:class="currentLinkageEvent.length > 1 && item.id === currentLinkageEvent[1] ? 'linkage-dialog-event-actived' : ''">
 							<span>{{item.custom.name}}</span>
@@ -119,7 +117,6 @@
 				<div v-if="linkageEventSettingActiveIndex === 2">
 					<ul class="linkage-dialog-event">
 						<li v-for="item in linkageEventConfig"
-							:key='item'
 							:class="item.checked ? 'linkage-dialog-event-checked' : ''"
 							@click="selectLinkageComponentEventType(item)">
 							<span>{{item.id}}</span>
