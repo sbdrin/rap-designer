@@ -1,6 +1,6 @@
 <script>
-import perview from "./perview.class";
-export default perview
+import perview from './perview.class';
+export default perview;
 </script>
 <style lang="scss">
 .perview {

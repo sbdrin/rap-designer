@@ -1,6 +1,6 @@
 // import pluginsMixins from './pluginsMixins';
 // import EchartsBase from '@/modules/echartBase/echartBase.module';
-// import { extend, throttle } from '@/modules/utils/utils';
+// import { extend, throttle } from '@/utils/utils';
 // import { isEqual } from 'lodash';
 
 // let _this = null;

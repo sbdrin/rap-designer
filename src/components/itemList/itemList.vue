@@ -29,7 +29,7 @@
 -
 <script>
 import draggable from "vuedraggable";
-import { extend, uuid } from '@/modules/utils/utils';
+import { extend, uuid } from '@/utils/utils';
 
 export default {
 	name: 'itemList',

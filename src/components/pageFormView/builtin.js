@@ -1,4 +1,4 @@
-import { types } from '@/modules/utils/utils';
+import { types } from '@/utils/utils';
 
 export const createItem = (h, item, vm) => {
 	let renderDom = null;

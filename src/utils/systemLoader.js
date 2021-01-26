@@ -9,6 +9,8 @@ import '@/components';
 import '@/styles/system.scss';
 import '@/styles/ruler.css';
 import '@/styles/element-variables.scss';
+import 'v-contextmenu/dist/index.css';
+
 /**
  * 系统加载器
  */

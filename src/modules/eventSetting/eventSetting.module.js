@@ -1,4 +1,4 @@
-import { firstUpperCase } from '@/modules/utils/utils';
+import { firstUpperCase } from '@/utils/utils';
 
 export default class EventSetting {
 	constructor(options) {

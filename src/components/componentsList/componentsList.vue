@@ -1,7 +1,7 @@
 <script>
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { uuid } from '@/modules/utils/utils';
+import { uuid } from '@/utils/utils';
 
 @Component({
 	props: {

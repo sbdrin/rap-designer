@@ -13,7 +13,7 @@
 <script>
 import IScroll from 'iscroll';
 import { addResizeListener, removeResizeListener } from '@/utils/resize-event';
-import { throttle } from '@/modules/utils/utils';
+import { throttle } from '@/utils/utils';
 /**
  * 滚动条组件
  */

@@ -4,9 +4,9 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { State, Mutation } from 'vuex-class';
 
-import Configuration from '@/modules/configuration/configuration';
+import Configuration from '@/configuration/configuration';
 import VueDraggableResizable from '@/components/draggableResizable/draggableResizable.vue';
-import { uuid, throttle, extend, toLine } from '@/modules/utils/utils';
+import { uuid, throttle, extend, toLine } from '@/utils/utils';
 
 const configuration = new Configuration();
 let _this = null;

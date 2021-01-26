@@ -151,7 +151,7 @@
 </template>
 
 <script>
-import { types, firstUpperCase, classnames } from '@/modules/utils/utils';
+import { types, firstUpperCase, classnames } from '@/utils/utils';
 import EventSetting from '@/modules/eventSetting/eventSetting.module';
 
 let eventSettingIns = null;

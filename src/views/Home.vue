@@ -12,7 +12,7 @@
 <script>
 // @ is an alias to /src
 import desigenerPage from './desigenerPage/desigenerPage.view.vue';
-import { isMobile750 } from '@/modules/utils/utils';
+import { isMobile750 } from '@/utils/utils';
 export default {
 	name: 'home',
 	components: {
