@@ -2,6 +2,11 @@ import Vue from 'vue';
 
 
 import xaAlert from './alert/alert.vue';
+import alertConfig from './alert/alertConfig';
+
+export const DEFAULT_CONFIG = [
+	alertConfig
+];
 
 
 const plugins = {
