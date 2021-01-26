@@ -6,17 +6,17 @@ export const uuid = () => {
 	});
 };
 
-export const types = (data: undefined) => {
+export const types = (data: any) => {
 	return Object.prototype.toString.call(data);
 };
 
-export const extend = (...arg: (any)[]) => {
-	let target:any, deep, i, clone, src, option:any, length, copy, isArray;
+export const extend = (...arg: any) => {
+	let target, deep, i, clone, src, option, copy, isArray;
 
 	target = arg[0] || {};
 	i = 1;
 	deep = false;
-	length = arg.length;
+	const length = arg.length;
 
 	if (typeof target === 'boolean') {
 		deep = target;
@@ -46,7 +46,7 @@ export const extend = (...arg: (any)[]) => {
 					isArray = false;
 
 					target[name] = extend(deep, clone, copy);
-				// eslint-disable-next-line no-void
+					// eslint-disable-next-line no-void
 				} else if (types(copy) !== void 0) {
 					target[name] = copy;
 				}
@@ -56,7 +56,7 @@ export const extend = (...arg: (any)[]) => {
 	return target;
 };
 
-export const throttle = function (this: any, func: { apply: (arg0: any, arg1: IArguments) => any; }, wait: number, options: { leading?: any; trailing?: any; }) {
+export const throttle = function (func: any, wait: any, options: any) {
 	let timeout: any, context: any, args: any, result: any;
 	let previous = 0;
 	if (!options) options = {};
@@ -68,7 +68,7 @@ export const throttle = function (this: any, func: { apply: (arg0: any, arg1: IA
 		if (!timeout) context = args = null;
 	};
 
-	const throttled =  () => {
+	const throttled = function (this: any) {
 		const now = Date.now();
 		if (!previous && options.leading === false) previous = now;
 		const remaining = wait - (now - previous);
@@ -98,8 +98,9 @@ export const throttle = function (this: any, func: { apply: (arg0: any, arg1: IA
 	return throttled;
 };
 
-export const debounce = (func: { apply: (arg0: any, arg1: any[]) => any; }, wait: any, immediate: any) => {
-	let timeout: any, context: any, args: any, timestamp: any, result: any;
+export const debounce = (func: any, wait: any, immediate: any) => {
+	let timeout: any, args: any, context: any, timestamp: any, result: any;
+
 	const later = function () {
 		// 据上一次触发时间间隔
 		const last = +new Date() - timestamp;
@@ -137,12 +138,12 @@ export const isMobile750 = (function () {
 })();
 
 // 驼峰转换下划线
-export const toLine = (name: string) => name.replace(/([A-Z])/g, '-$1').toLowerCase();
+export const toLine = (name: any) => name.replace(/([A-Z])/g, '-$1').toLowerCase();
 // 首字母大写
 export const firstUpperCase = (...args: any) => args[0].toUpperCase() + args.slice(1).join('');
 // 组件classname
-export const classnames = (data: { [x: string]: any; }) => {
-	const classNames: string[] = [];
+export const classnames = (data: any) => {
+	const classNames: any = [];
 	Object.keys(data).map((item) => {
 		if (data[item]) {
 			classNames.push(item);
