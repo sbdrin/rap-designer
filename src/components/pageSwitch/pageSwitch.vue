@@ -22,7 +22,7 @@
     <span
       :class="checked ? 'el-switch__core el-switch__actived' : 'el-switch__core el-switch__inactive'"
       ref="core"
-      :style="{ 'width': coreWidth + 'px' }"
+      :style="{ 'width': coreWidth/20 + 'rem' }"
     >{{checked ? activeText : inactiveText}}</span>
   </div>
 </template>

@@ -13,8 +13,8 @@ export default class Perview extends Vue {
 	logo = require('../../assets/logo1.png');
 	get perviewHtmlStyle() {
 		return {
-			width: this.page.style.layoutStyle === '1' ? this.page.style.w + 'px' : '100%',
-			height: this.page.style.layoutStyle === '1' ? this.page.style.h + 'px' : '100%',
+			width: this.page.style.layoutStyle === '1' ? this.page.style.w/20 + 'rem' : '100%',
+			height: this.page.style.layoutStyle === '1' ? this.page.style.h/20 + 'rem' : '100%',
 			background: this.page.style.background,
 			margin: '0 auto'
 		};

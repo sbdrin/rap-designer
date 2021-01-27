@@ -607,10 +607,10 @@ export default {
 		style() {
 			return {
 				position: 'absolute',
-				top: this.top + 'px',
-				left: this.left + 'px',
-				width: this.width + 'px',
-				height: this.height + 'px',
+				top: this.top/20 + 'rem',
+				left: this.left/20 + 'rem',
+				width: this.width/20 + 'rem',
+				height: this.height/20 + 'rem',
 				zIndex: this.zIndex,
 				...(this.dragging && this.disableUserSelect ? userSelectNone : userSelectAuto)
 			};

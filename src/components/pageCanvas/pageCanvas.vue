@@ -17,8 +17,8 @@ class PageCanvas extends Vue {
 	get wrapStyle() {
 		if (this.$store.state.page.style.layoutStyle === '1') {
 			return {
-				width: this.xw + 'px',
-				height: this.yw + 'px',
+				width: this.xw/20 + 'rem',
+				height: this.yw/20 + 'rem',
 				backgroundColor: this.background
 			};
 		}
@@ -30,27 +30,27 @@ class PageCanvas extends Vue {
 	}
 	get vrulerStyle() {
 		return {
-			width: this.yh + 'px',
-			height: this.yw + 'px',
+			width: this.yh/20 + 'rem',
+			height: this.yw/20 + 'rem',
 			top: 0,
-			left: `${this.scrollY}px`
+			left: `${this.scrollY/20}rem`
 		};
 	}
 	get hrulerStyle() {
 		return {
-			width: this.xw + 'px',
-			height: this.xh + 'px',
-			top: `${this.scrollX}px`,
+			width: this.xw/20 + 'rem',
+			height: this.xh/20 + 'rem',
+			top: `${this.scrollX/20}rem`,
 			left: 0
 		};
 	}
 	get componentsWrapStyle() {
 		if (this.$store.state.page.style.layoutStyle === '1') {
 			return {
-				top: this.xh + 'px',
-				left: this.yh + 'px',
-				width: `calc(100% - ${this.xh}px)`,
-				height: `calc(100% - ${this.yh}px)`
+				top: this.xh/20 + 'rem',
+				left: this.yh/20 + 'rem',
+				width: `calc(100% - ${this.xh/20}rem)`,
+				height: `calc(100% - ${this.yh/20}rem)`
 			};
 		}
 		return {
@@ -114,7 +114,7 @@ class PageCanvas extends Vue {
 			createRuler(h, height, width, key) {
 				const vrulerDom = [];
 				let tickLabelPos = height;
-				const $styleFn = (data) => { return { transform: key === 'y' ? `translateY(${data}px)` : `translateX(${data}px)` }; };
+				const $styleFn = (data) => { return { transform: key === 'y' ? `translateY(${data/20}rem)` : `translateX(${data/20}rem)` }; };
 				while (tickLabelPos <= width) {
 					if ((tickLabelPos - height) % 50 == 0) {
 						vrulerDom.push(

@@ -128,11 +128,11 @@ class PageLayoutViewDefault extends Vue {
 	}
 	createRoot(h, item, children) {
 		const style = {
-			paddingTop: item.style.paddingTop + 'px',
-			paddingBottom: item.style.paddingBottom + 'px',
-			paddingLeft: item.style.paddingLeft + 'px',
-			paddingRight: item.style.paddingRight + 'px',
-			borderWidth: item.style.borderWidth + 'px',
+			paddingTop: item.style.paddingTop/20 + 'rem',
+			paddingBottom: item.style.paddingBottom/20 + 'rem',
+			paddingLeft: item.style.paddingLeft/20 + 'rem',
+			paddingRight: item.style.paddingRight/20 + 'rem',
+			borderWidth: item.style.borderWidth/20 + 'rem',
 			borderStyle: item.style.borderStyle,
 			borderColor: item.style.borderColor,
 			backgroundColor: item.style.backgroundColor
@@ -170,19 +170,19 @@ class PageLayoutViewDefault extends Vue {
 	createComponentsItems(h) {
 		const getComponentStyle = (item) => {
 			return {
-				paddingTop: item.style.paddingTop + 'px',
-				paddingBottom: item.style.paddingBottom + 'px',
-				paddingLeft: item.style.paddingLeft + 'px',
-				paddingRight: item.style.paddingRight + 'px',
-				borderWidth: item.style.borderWidth + 'px',
+				paddingTop: item.style.paddingTop/20 + 'rem',
+				paddingBottom: item.style.paddingBottom/20 + 'rem',
+				paddingLeft: item.style.paddingLeft/20 + 'rem',
+				paddingRight: item.style.paddingRight/20 + 'rem',
+				borderWidth: item.style.borderWidth/20 + 'rem',
 				borderStyle: item.style.borderStyle,
 				borderColor: item.style.borderColor,
 				backgroundColor: item.style.backgroundColor,
 				position: 'absolute',
-				left: item.custom.x + 'px',
-				top: item.custom.y + 'px',
-				width: item.custom.width + 'px',
-				height: item.custom.height + 'px'
+				left: item.custom.x/20 + 'rem',
+				top: item.custom.y/20 + 'rem',
+				width: item.custom.width/20 + 'rem',
+				height: item.custom.height/20 + 'rem'
 			};
 		};
 		if (this.isRuntime) {
