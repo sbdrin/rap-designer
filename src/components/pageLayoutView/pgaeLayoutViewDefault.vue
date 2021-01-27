@@ -65,7 +65,7 @@ class PageLayoutViewDefault extends Vue {
 				_this.currentPlugins[0] && _this.updatePluginsProps({ id: _this.currentPlugins[0].id, modify: { id: 'custom.x', value: x } });
 				_this.currentPlugins[0] && _this.updatePluginsProps({ id: _this.currentPlugins[0].id, modify: { id: 'custom.y', value: y } });
 
-				_this.currentPlugins[0] && _this.currentPlugins[0].key !== 'xaContainerLayout' && _this.detectingContainerCompoents();
+				_this.currentPlugins[0] && _this.currentPlugins[0].key !== 'kaContainerLayout' && _this.detectingContainerCompoents();
 			}
 		}
 	}, 500)
@@ -78,7 +78,7 @@ class PageLayoutViewDefault extends Vue {
 		this.updateCurrentPluginsFn([]);
 	}
 	detectingContainerCompoents() {
-		const containerComponents = _this.plugins.filter(item => item.key === 'xaContainerLayout');
+		const containerComponents = _this.plugins.filter(item => item.key === 'kaContainerLayout');
 		// 横向求重叠公式: (right1-left1)+(right2-left2) - ( max(right1,right2) - min(left1,left2) )
 		const left2 = _this.currentPlugins[0].custom.x;
 		const right2 = _this.currentPlugins[0].custom.x + _this.currentPlugins[0].custom.width;

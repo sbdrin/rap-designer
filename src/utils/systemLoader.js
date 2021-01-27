@@ -5,11 +5,13 @@ import Http from '@/utils/Http.module';
 import KFront from 'kfront-baseui';
 import ElementUI from 'element-ui';
 import contentmenu from 'v-contextmenu';
+import 'v-contextmenu/dist/index.css';
+import '@/directive';
 import '@/components';
+import '@/styles/font.css';
 import '@/styles/system.scss';
 import '@/styles/ruler.css';
 import '@/styles/element-variables.scss';
-import 'v-contextmenu/dist/index.css';
 
 /**
  * 系统加载器

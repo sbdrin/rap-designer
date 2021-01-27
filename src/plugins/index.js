@@ -2,15 +2,20 @@ import Vue from 'vue';
 
 
 import kaAlert from './alert/alert.vue';
-import alertConfig from './alert/alertConfig';
+import alertConfig from './alert/alert.config';
+
+import kaContainerLayout from './containerLayout/containerLayout.vue';
+import containerLayoutConfig from './containerLayout/containerLayout.config';
 
 export const DEFAULT_CONFIG = [
-	alertConfig
+	alertConfig,
+	containerLayoutConfig
 ];
 
 
 const plugins = {
-	kaAlert
+	kaAlert,
+	kaContainerLayout
 };
 
 const installComponents = function () {
