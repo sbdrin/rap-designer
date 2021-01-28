@@ -73,20 +73,12 @@ export const basisCommonConfig = {
     {
       id: 'custom.width',
       label: '宽',
-      type: 'inputNumber',
-      options: {
-        min: 0,
-        max: Number.MAX_SAFE_INTEGER,
-      },
+      type: 'input'  
     },
     {
       id: 'custom.height',
       label: '高',
-      type: 'inputNumber',
-      options: {
-        min: 0,
-        max: Number.MAX_SAFE_INTEGER,
-      },
+      type: 'input'
     },
     {
       label: '位置',

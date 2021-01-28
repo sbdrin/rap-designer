@@ -113,14 +113,12 @@ export default {
 			default: false
 		},
 		w: {
-			type: Number,
-			default: 200,
-			validator: (val) => val >= 0
+			type: [String, Number],
+			default: '200'
 		},
 		h: {
-			type: Number,
-			default: 200,
-			validator: (val) => val >= 0
+			type: [String, Number],
+			default: '200'
 		},
 		minWidth: {
 			type: Number,
@@ -605,12 +603,14 @@ export default {
 	},
 	computed: {
 		style() {
+			let isAbsolute = this.top || this.left;
 			return {
-				position: 'absolute',
-				top: this.top/20 + 'rem',
-				left: this.left/20 + 'rem',
-				width: this.width/20 + 'rem',
-				height: this.height/20 + 'rem',
+				position: isAbsolute ? 'absolute' : 'relative',
+				flex: (this.width && this.height) ? 0 : 1,
+				width: +this.width ? (this.width / 20 + 'rem') : this.width,
+				height: +this.height ? (this.height / 20 + 'rem') : this.height,
+				top: this.top / 20 + 'rem',
+				left: this.left / 20 + 'rem',
 				zIndex: this.zIndex,
 				...(this.dragging && this.disableUserSelect ? userSelectNone : userSelectAuto)
 			};
@@ -620,10 +620,10 @@ export default {
 			return this.handles;
 		},
 		width() {
-			return this.parentWidth - this.left - this.right;
+			return +this.w ? (this.parentWidth - this.left - this.right) : this.w;
 		},
 		height() {
-			return this.parentHeight - this.top - this.bottom;
+			return +this.h ? (this.parentHeight - this.top - this.bottom) : this.h;
 		},
 		resizingOnX() {
 			return (Boolean(this.handle) && (this.handle.includes('l') || this.handle.includes('r')));

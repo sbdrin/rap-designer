@@ -176,11 +176,11 @@ class designerArea extends Vue {
 				</li>
 				<li>
 					<span>高:</span>
-					<span>{this.currentPlugins[0].custom.height}px</span>
+					<span>{this.currentPlugins[0].custom.height}</span>
 				</li>
 				<li>
 					<span>宽:</span>
-					<span>{this.currentPlugins[0].custom.width}px</span>
+					<span>{this.currentPlugins[0].custom.width}</span>
 				</li>
 			</ul>}
 		</div>;
