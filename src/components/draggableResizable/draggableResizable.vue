@@ -604,9 +604,8 @@ export default {
 	computed: {
 		style() {
 			let isAbsolute = this.top || this.left;
-			return {
+			let result = {
 				position: isAbsolute ? 'absolute' : 'relative',
-				flex: (this.width && this.height) ? 0 : 1,
 				width: +this.width ? (this.width / 20 + 'rem') : this.width,
 				height: +this.height ? (this.height / 20 + 'rem') : this.height,
 				top: this.top / 20 + 'rem',
@@ -614,6 +613,10 @@ export default {
 				zIndex: this.zIndex,
 				...(this.dragging && this.disableUserSelect ? userSelectNone : userSelectAuto)
 			};
+			if (!this.width || !this.height) {
+				result.flex = '1';
+			}
+			return result;
 		},
 		actualHandles() {
 			if (!this.resizable) return [];

@@ -65,7 +65,7 @@ class PageLayoutViewDefault extends Vue {
 				_this.currentPlugins[0] && _this.updatePluginsProps({ id: _this.currentPlugins[0].id, modify: { id: 'custom.x', value: x } });
 				_this.currentPlugins[0] && _this.updatePluginsProps({ id: _this.currentPlugins[0].id, modify: { id: 'custom.y', value: y } });
 
-				_this.currentPlugins[0] && _this.currentPlugins[0].key !== 'kaContainerLayout' && _this.detectingContainerCompoents();
+				_this.currentPlugins[0] && _this.detectingContainerCompoents();
 			}
 		}
 	}, 500)
@@ -104,7 +104,7 @@ class PageLayoutViewDefault extends Vue {
 			const area = areaW * areaH;
 			// 遮挡矩形面积大于等于 当前拖拽组件面积一半 就把当前组件添加到该容器中
 			if (areaW > 0 && areaH > 0 && area >= _this.currentPlugins[0].custom.width / 2 * _this.currentPlugins[0].custom.height) {
-				if (!item.children.find(item => item.id === _this.currentPlugins[0].id)) {
+				if ((item.id!==_this.currentPlugins[0].id) && !item.children.find(item => item.id === _this.currentPlugins[0].id)) {
 					const copyPlugins = [..._this.currentPlugins];
 					copyPlugins[0].custom.x = 0;
 					copyPlugins[0].custom.y = 0;

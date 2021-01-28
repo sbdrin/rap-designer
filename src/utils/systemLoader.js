@@ -12,6 +12,7 @@ import '@/styles/font.css';
 import '@/styles/system.scss';
 import '@/styles/ruler.css';
 import '@/styles/element-variables.scss';
+import '@/styles/custom.scss';
 
 /**
  * 系统加载器
