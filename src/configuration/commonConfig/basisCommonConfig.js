@@ -9,6 +9,7 @@ export const basisCommonConfig = {
     borderStyle: 'solid',
     borderColor: '#EBEEF5',
     backgroundColor: '#fff',
+    position: 'relative'
   },
   custom: {
     width: 200,
@@ -73,7 +74,7 @@ export const basisCommonConfig = {
     {
       id: 'custom.width',
       label: '宽',
-      type: 'input'  
+      type: 'input'
     },
     {
       id: 'custom.height',
@@ -105,6 +106,24 @@ export const basisCommonConfig = {
     {
       label: '样式配置',
       type: 'title',
+    },
+    {
+      id: 'style.position',
+      label: '定位方式',
+      type: 'select',
+      list: [
+        {
+          label: '无',
+          value: 'static',
+        },
+        {
+          label: '相对定位',
+          value: 'relative',
+        },
+        {
+          label: '绝对定位',
+          value: 'absolute',
+        }]
     },
     {
       id: 'style.paddingTop',

@@ -32,6 +32,9 @@ class DesigenerPage extends Vue {
 			const add = (data) => {
 				const componentList = [];
 				data.map((item) => {
+					if(item.pid){
+						return;
+					}
 					if (item.children) {
 						componentList.push({
 							label: item.custom.name,
@@ -55,7 +58,7 @@ class DesigenerPage extends Vue {
 	}
 	@Watch('currentPlugins', { deep: true, immediate: true })
 	updateCurrentPluginsFn(newValue, oldValue) {
-		const ids = ['custom.width', 'custom.height', 'custom.x', 'custom.y', 'style.paddingTop', 'style.paddingBottom', 'style.paddingLeft', 'style.paddingRight', 'style.borderWidth', 'style.borderStyle', 'style.borderColor', 'style.backgroundColor'];
+		const ids = ['custom.width', 'custom.height', 'custom.x', 'custom.y', 'style.position', 'style.paddingTop', 'style.paddingBottom', 'style.paddingLeft', 'style.paddingRight', 'style.borderWidth', 'style.borderStyle', 'style.borderColor', 'style.backgroundColor'];
 		const labels = ['尺寸', '位置', '样式配置'];
 		if (newValue[0]) {
 			newValue[0].options.map((item) => {

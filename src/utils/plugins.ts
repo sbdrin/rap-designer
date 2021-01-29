@@ -18,7 +18,10 @@ export default class Plugins extends Observer {
     if (!id) {
       this.plugins = [];
     }
-
+	if(id.id){
+		this.plugins.push(id);
+		id = id.id;
+	}
     let [i, length] = [0, this.plugins.length];
 
     for (; i < length; i++) {
@@ -36,6 +39,7 @@ export default class Plugins extends Observer {
   addAttrs(data: { [x: string]: string; id: any; key: string; custom: any}) {
     if(!data.id) {
       data['id'] = data.key + '_' + uuid();
+      data.pid = '';
     }
     data.custom && (data.custom['id'] = data.id);
     return data;

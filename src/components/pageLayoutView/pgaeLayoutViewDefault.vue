@@ -104,13 +104,13 @@ class PageLayoutViewDefault extends Vue {
 			const area = areaW * areaH;
 			// 遮挡矩形面积大于等于 当前拖拽组件面积一半 就把当前组件添加到该容器中
 			if (areaW > 0 && areaH > 0 && area >= _this.currentPlugins[0].custom.width / 2 * _this.currentPlugins[0].custom.height) {
-				if ((item.id!==_this.currentPlugins[0].id) && !item.children.find(item => item.id === _this.currentPlugins[0].id)) {
-					const copyPlugins = [..._this.currentPlugins];
-					copyPlugins[0].custom.x = 0;
-					copyPlugins[0].custom.y = 0;
-					_this.updatePluginsProps({ id: item.id, modify: { id: 'children', value: [...item.children, ...copyPlugins] } });
-					_this.delPluginFn(_this.currentPlugins[0].id);
-					_this.updateCurrentPluginsFn(copyPlugins);
+				if ((item.id !== _this.currentPlugins[0].id) && !item.children.find(item => item.id === _this.currentPlugins[0].id)) {
+					_this.currentPlugins[0].custom.x = 0;
+					_this.currentPlugins[0].custom.y = 0;
+					_this.updatePluginsProps({ id: item.id, modify: { id: 'children', value: [...item.children, _this.currentPlugins[0]] } });
+					_this.currentPlugins[0].pid = item.id;
+					_this.delPluginFn(_this.currentPlugins[0]);
+					_this.updateCurrentPluginsFn(_this.currentPlugins);
 				}
 				break;
 			}
@@ -126,7 +126,7 @@ class PageLayoutViewDefault extends Vue {
 			})}
 		</v-contextmenu>;
 	}
-	createRoot(h, item, children) {
+	createRoot(h, item) {
 		const style = {
 			paddingTop: item.style.paddingTop / 20 + 'rem',
 			paddingBottom: item.style.paddingBottom / 20 + 'rem',
@@ -147,23 +147,21 @@ class PageLayoutViewDefault extends Vue {
 			h={item.custom.height}
 			x={item.custom.x}
 			y={item.custom.y}
+			position={item.style.position}
 			active={currentPluginsId === item.id}
 			parent
 			snap={false}
 			minHeight={10}
 			parentSelector=".page-layout-view-default"
-			drag-handle={item.children ? '.drag-handle' : ''}
+			// drag-handle={item.children ? '.drag-handle' : ''}
 			onResizing={this.resizing}
 			onDragging={this.dragging}
 			onActivated={() => this.activatedFn(item.id)}
 			onDeactivated={this.deactivatedFn}
 		>
-			{item.children && <div class="drag-handle">
-				<i class="iconfont icontuozhuai" />
-				<span class="drag-handle--label">拖动区域</span>
-			</div>}
 			<div class="designer-content-drag-proxy" id={item.id} style={style}>
-				{children}
+				{h(item.key, { key: item.id, ref: item.id, props: { options: item.props, children: item.children, custom: item.custom }, directives: [{ name: 'contextmenu', arg: 'contextmenu' }] },
+					item.children && item.children.map(cItem => this.createRoot(h, cItem)))}
 			</div>
 		</VueDraggableResizable>;
 	}
@@ -190,14 +188,14 @@ class PageLayoutViewDefault extends Vue {
 		if (this.isRuntime) {
 			return this.plugins.map(item => {
 				return (
-					<div id={item.id} style={getComponentStyle(item)}>
-						{h(item.key, { key: item.id, ref: item.id, props: { options: item.props, children: item.children, custom: item.custom } })}
+					item.pid ? undefined : <div id={item.id} style={getComponentStyle(item)}>
+						{h(item.key, { key: item.id, ref: item.id, props: { options: item.props, children: item.children, custom: item.custom } },
+							item.children && item.children.map(cItem => h(cItem.key, { key: cItem.id, ref: cItem.id, props: { options: cItem.props, children: cItem.children, custom: cItem.custom } })))}
 					</div>
 				);
 			});
 		}
-
-		return this.plugins.map(item => this.createRoot(h, item, h(item.key, { key: item.id, ref: item.id, props: { options: item.props, children: item.children, custom: item.custom }, directives: [{ name: 'contextmenu', arg: 'contextmenu' }] })));
+		return this.plugins.map(item => { return item.pid ? undefined : this.createRoot(h, item) });
 	}
 	mounted() {
 		_this = this;

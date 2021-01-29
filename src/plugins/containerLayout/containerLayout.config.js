@@ -14,10 +14,14 @@ export const containerLayoutConfig = {
     responsive: true,
     autoSize: true,
   },
-  style: Object.assign({}, commonConfig.style),
+  style: Object.assign({}, commonConfig.style, {
+    position: 'absolute'
+  }),
   custom: Object.assign({}, commonConfig.custom, {
     name: '容器组件',
     iconname: 'iconrongqi',
+    width: '400',
+    height: '500',
     dataConfig: [
       {
         label: '子组件列表',

@@ -7,8 +7,8 @@
       [classNameDraggable]: draggable,
       [classNameResizable]: resizable
     }, className]"
-		 @mousedown="elementDown"
-		 @touchstart="elementTouchDown">
+		 @mousedown.stop.prevent="elementDown"
+		 @touchstart.stop.prevent="elementTouchDown">
 		<div v-for="handle in actualHandles"
 			 :key="handle"
 			 :class="[classNameHandle, classNameHandle + '-' + handle]"
@@ -111,6 +111,10 @@ export default {
 		lockAspectRatio: {
 			type: Boolean,
 			default: false
+		},
+		position: {
+			type: String,
+			default: 'relative'
 		},
 		w: {
 			type: [String, Number],
@@ -603,9 +607,8 @@ export default {
 	},
 	computed: {
 		style() {
-			let isAbsolute = this.top || this.left;
 			let result = {
-				position: isAbsolute ? 'absolute' : 'relative',
+				position: this.position,
 				width: +this.width ? (this.width / 20 + 'rem') : this.width,
 				height: +this.height ? (this.height / 20 + 'rem') : this.height,
 				top: this.top / 20 + 'rem',
