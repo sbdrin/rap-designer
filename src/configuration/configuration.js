@@ -4,7 +4,7 @@ import { DEFAULT_CONFIG } from '@/plugins/index';
 /**
  * 系统组件配置
  */
-export default class Configuration {
+class Configuration {
 	constructor(options) {
 		if (!window.Uidesigner) {
 			window.Uidesigner = {};
@@ -25,3 +25,5 @@ export default class Configuration {
 		return extend(true, [], this.options);
 	}
 }
+const configuration = new Configuration();
+export default configuration;

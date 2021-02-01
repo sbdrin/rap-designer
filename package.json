@@ -46,6 +46,7 @@
     "kfront-baseui": "^1.3.7",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
+    "tslint": "^6.1.3",
     "typescript": "~3.9.3",
     "vue-template-compiler": "^2.6.11"
   }

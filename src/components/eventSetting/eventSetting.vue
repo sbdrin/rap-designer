@@ -188,7 +188,9 @@ export default {
 	computed: {
 		pagePulgin() {
 			// 过滤联动组件,联动事件无法联动自己
-			return this.$store.state.plugins.filter(item => item.id !== this.options.id);
+			return Object.values(this.$store.state.plugins).filter(item => {
+				return item.id && (item.id !== this.options.id);
+			});
 		},
 		linkageEventLevel() {
 			const _currentLinkageEvent = [...this.currentLinkageEvent];

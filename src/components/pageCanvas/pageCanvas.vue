@@ -15,49 +15,34 @@ class PageCanvas extends Vue {
 	scrollY = 0
 
 	get wrapStyle() {
-		if (this.$store.state.page.style.layoutStyle === '1') {
-			return {
-				width: this.xw/20 + 'rem',
-				height: this.yw/20 + 'rem',
-				backgroundColor: this.background
-			};
-		}
 		return {
-			width: '100%',
-			height: '100%',
+			width: this.xw / 20 + 'rem',
+			height: this.yw / 20 + 'rem',
 			backgroundColor: this.background
 		};
 	}
 	get vrulerStyle() {
 		return {
-			width: this.yh/20 + 'rem',
-			height: this.yw/20 + 'rem',
+			width: this.yh / 20 + 'rem',
+			height: this.yw / 20 + 'rem',
 			top: 0,
-			left: `${this.scrollY/20}rem`
+			left: `${this.scrollY / 20}rem`
 		};
 	}
 	get hrulerStyle() {
 		return {
-			width: this.xw/20 + 'rem',
-			height: this.xh/20 + 'rem',
-			top: `${this.scrollX/20}rem`,
+			width: this.xw / 20 + 'rem',
+			height: this.xh / 20 + 'rem',
+			top: `${this.scrollX / 20}rem`,
 			left: 0
 		};
 	}
 	get componentsWrapStyle() {
-		if (this.$store.state.page.style.layoutStyle === '1') {
-			return {
-				top: this.xh/20 + 'rem',
-				left: this.yh/20 + 'rem',
-				width: `calc(100% - ${this.xh/20}rem)`,
-				height: `calc(100% - ${this.yh/20}rem)`
-			};
-		}
 		return {
-			top: 0,
-			left: 0,
-			width: '100%',
-			height: '100%'
+			top: this.xh / 20 + 'rem',
+			left: this.yh / 20 + 'rem',
+			width: `calc(100% - ${this.xh / 20}rem)`,
+			height: `calc(100% - ${this.yh / 20}rem)`
 		};
 	}
 	bindEvent() {
@@ -114,7 +99,7 @@ class PageCanvas extends Vue {
 			createRuler(h, height, width, key) {
 				const vrulerDom = [];
 				let tickLabelPos = height;
-				const $styleFn = (data) => { return { transform: key === 'y' ? `translateY(${data/20}rem)` : `translateX(${data/20}rem)` }; };
+				const $styleFn = (data) => { return { transform: key === 'y' ? `translateY(${data / 20}rem)` : `translateX(${data / 20}rem)` }; };
 				while (tickLabelPos <= width) {
 					if ((tickLabelPos - height) % 50 == 0) {
 						vrulerDom.push(
@@ -146,12 +131,10 @@ class PageCanvas extends Vue {
 		};
 	}
 	render(h) {
-		const layoutStyle = this.$store.state.page.style.layoutStyle;
-
 		return <div class="page-canvas" id="pageCanvasContainer">
 			<div class="page-canvas__wrap" style={this.wrapStyle} on-drop={($event) => this.drop($event)} on-dragover={($event) => this.dragover($event)} on-dragend={($event) => this.dragend($event)}>
-				{layoutStyle === '1' && this.renderChildren().createVrule(h)}
-				{layoutStyle === '1' && this.renderChildren().createHrule(h)}
+				{this.renderChildren().createVrule(h)}
+				{this.renderChildren().createHrule(h)}
 				<div class="page-canvas__components" style={this.componentsWrapStyle}>
 					{this.$slots.default}
 				</div>

@@ -149,7 +149,7 @@ export default desigenerPage;
 			padding: 5px 0 5px 5px;
 		}
 		&-layout__wrap {
-			height: 200px;
+			height: 350px;
 			overflow-x: hidden;
 			overflow-y: hidden;
 			padding: 5px;

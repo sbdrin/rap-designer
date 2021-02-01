@@ -15,7 +15,6 @@ module.exports = {
     // tab缩进
     'indent': [
       'error',
-      { "SwitchCase": 1 },
       'tab'
     ],
     // 单引号引用字符串

@@ -412,7 +412,6 @@ export default {
 			const target = e.target || e.srcElement;
 			const regex = new RegExp(this.className + '-([trmbl]{2})', '');
 			const _parent = document.querySelector(this.parentSelector);
-
 			if (!this.$el.contains(target) && !regex.test(target.className) && _parent.contains(target)) {
 				if (this.enabled && !this.preventDeactivation) {
 					this.enabled = false;

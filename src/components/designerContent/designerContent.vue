@@ -4,29 +4,24 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { State, Mutation } from 'vuex-class';
 
-import Configuration from '@/configuration/configuration';
+import configuration from '@/configuration/configuration';
 import VueDraggableResizable from '@/components/draggableResizable/draggableResizable.vue';
 import pageCanvas from '@/components/pageCanvas/pageCanvas.vue';
 import { uuid, throttle, extend, toLine } from '@/utils/utils';
+import page from '@/utils/page';
 import { Watch } from '@/modules/vuePropertyDecorator/vuePropertyDecorator';
 import PageEventManage from '@/modules/pageEventManage/pageEventManage';
-import PageLayoutViewAuto from '@/components/pageLayoutView/pageLayoutViewAuto.vue';
 import PageLayoutViewDefault from '@/components/pageLayoutView/pgaeLayoutViewDefault.vue';
 
-const configuration = new Configuration();
 let _this = null;
 @Component({
-	components: { VueDraggableResizable, pageCanvas, PageLayoutViewAuto, PageLayoutViewDefault }
+	components: { VueDraggableResizable, pageCanvas, PageLayoutViewDefault }
 })
-class designerArea extends Vue {
-	@State('page') page
-	@State('plugins') plugins
+export default class DesignerArea extends Vue {
 	@State('currentPlugins') currentPlugins
 	@State('clipboard') clipboard
-
-	@Mutation('updatePageProps') updatePageProps;
+	@State('plugins') plugins
 	@Mutation('addPlugin') addPlugin
-	@Mutation('updateCurrentPlugins') updateCurrentPluginsFn
 	@Mutation('updatePluginsProps') updatePluginsProps
 	@Mutation('delPlugin') delPluginFn
 	@Mutation('setClipboard') setClipboardFn
@@ -70,8 +65,8 @@ class designerArea extends Vue {
 		if (this.clipboard && this.clipboard.length) {
 			const orgData = this.clipboard[0].custom;
 			const _id = this.clipboard[0].key + '_' + uuid();
-			const _x = orgData.x + 10 > this.page.style.w ? this.page.style.w - orgData.w : orgData.x + 10;
-			const _y = orgData.y + 10 > this.page.style.h ? this.page.style.h - orgData.h : orgData.y + 10;
+			const _x = orgData.x + 10 > page.style.w ? page.style.w - orgData.w : orgData.x + 10;
+			const _y = orgData.y + 10 > page.style.h ? page.style.h - orgData.h : orgData.y + 10;
 			const _newPlugins = extend(true, {}, this.clipboard[0], { custom: { id: _id, x: _x, y: _y }, id: _id });
 
 			// 更新剪贴板为当前复制后的组件
@@ -147,11 +142,11 @@ class designerArea extends Vue {
 		// TODO 没有考虑多页面,后期考虑
 		return <div class="designer-content-ruler">
 			<pageCanvas
-				xw={this.page.style.w + 18}
+				xw={page.style.w + 18}
 				xh={18}
-				yw={this.page.style.h + 18}
+				yw={page.style.h + 18}
 				yh={18}
-				background={this.page.style.background}
+				background={page.style.background}
 				on-drop={($event) => this.drop($event)}
 				on-dragover={($event) => this.dragover($event)}
 				on-dragend={($event) => this.dragend($event)}
@@ -165,7 +160,7 @@ class designerArea extends Vue {
 	}
 	createSetting(h) {
 		return <div class="designer-content-setting">
-			{this.currentPlugins[0] && this.page.style.layoutStyle === '1' && <ul class="designer-content-setting__ul">
+			{this.currentPlugins[0] && page.style.layoutStyle === '1' && <ul class="designer-content-setting__ul">
 				<li>
 					<span>Y:</span>
 					<span>{this.currentPlugins[0].custom.y}</span>
@@ -192,15 +187,11 @@ class designerArea extends Vue {
 		return <div class="designer-content-aus-line__x" style={this.auxLineX}></div>;
 	}
 	createComponentsItem(h) {
-		if (!this.plugins.length) return [];
-		// 1 固定布局
-		// 2 自适应布局
 		const LayoutView = {
-			1: (h) => <PageLayoutViewDefault onLeftMenuClick={(item) => this.handleLeftMenuClick(null, null, item)} />,
-			2: (h) => <PageLayoutViewAuto children={this.plugins} onLeftMenuClick={(item) => this.handleLeftMenuClick(null, null, item)} />
+			1: (h) => <PageLayoutViewDefault onLeftMenuClick={(item) => this.handleLeftMenuClick(null, null, item)} />
 		};
 
-		if (LayoutView[this.page.style.layoutStyle]) return LayoutView[this.page.style.layoutStyle](h);
+		if (LayoutView[page.style.layoutStyle]) return LayoutView[page.style.layoutStyle](h);
 
 		return [];
 	}
@@ -220,7 +211,6 @@ class designerArea extends Vue {
 		</div>;
 	}
 }
-export default designerArea;
 
 </script>
 

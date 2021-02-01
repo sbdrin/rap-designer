@@ -4,11 +4,10 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { State, Mutation } from 'vuex-class';
 
-import Configuration from '@/configuration/configuration';
+import configuration from '@/configuration/configuration';
 import VueDraggableResizable from '@/components/draggableResizable/draggableResizable.vue';
 import { uuid, throttle, extend, toLine } from '@/utils/utils';
 
-const configuration = new Configuration();
 let _this = null;
 
 @Component({
@@ -18,20 +17,18 @@ let _this = null;
 	}
 })
 class PageLayoutViewDefault extends Vue {
-	@State('page') page
 	@State('plugins') plugins
 	@State('currentPlugins') currentPlugins
 	@State('clipboard') clipboard
 
-	@Mutation('updatePageProps') updatePageProps;
 	@Mutation('addPlugin') addPlugin
 	@Mutation('updateCurrentPlugins') updateCurrentPluginsFn
+	@Mutation('resetCurrentPlugins') resetCurrentPluginsFn
 	@Mutation('updatePluginsProps') updatePluginsProps
 	@Mutation('delPlugin') delPluginFn
 	@Mutation('setClipboard') setClipboardFn
 	@Mutation('setPluginsRef') setPluginsRefFn
 
-	checkPlugin = false
 	leftMenuList = [{
 		id: '1',
 		label: '剪切'
@@ -59,63 +56,63 @@ class PageLayoutViewDefault extends Vue {
 			}
 		}
 	}, 500)
-	dragging = throttle((x, y) => {
-		if (_this) {
-			if (_this.currentPlugins.length) {
-				_this.currentPlugins[0] && _this.updatePluginsProps({ id: _this.currentPlugins[0].id, modify: { id: 'custom.x', value: x } });
-				_this.currentPlugins[0] && _this.updatePluginsProps({ id: _this.currentPlugins[0].id, modify: { id: 'custom.y', value: y } });
+	// dragging = throttle((x, y) => {
+	// 	if (_this) {
+	// 		if (_this.currentPlugins.length) {
+	// 			_this.currentPlugins[0] && _this.updatePluginsProps({ id: _this.currentPlugins[0].id, modify: { id: 'custom.x', value: x } });
+	// 			_this.currentPlugins[0] && _this.updatePluginsProps({ id: _this.currentPlugins[0].id, modify: { id: 'custom.y', value: y } });
 
-				_this.currentPlugins[0] && _this.detectingContainerCompoents();
-			}
-		}
-	}, 500)
+	// 			_this.currentPlugins[0] && _this.detectingContainerCompoents();
+	// 		}
+	// 	}
+	// }, 500)
 	activatedFn(id) {
-		this.updateCurrentPluginsFn(this.plugins.filter(item => item.id === id));
-		this.checkPlugin = true;
+		this.updateCurrentPluginsFn(id);
 	}
-	deactivatedFn() {
-		this.checkPlugin = false;
-		this.updateCurrentPluginsFn([]);
-	}
-	detectingContainerCompoents() {
-		const containerComponents = _this.plugins.filter(item => item.key === 'kaContainerLayout');
-		// 横向求重叠公式: (right1-left1)+(right2-left2) - ( max(right1,right2) - min(left1,left2) )
-		const left2 = _this.currentPlugins[0].custom.x;
-		const right2 = _this.currentPlugins[0].custom.x + _this.currentPlugins[0].custom.width;
-
-		const top2 = _this.currentPlugins[0].custom.y;
-		const bottom2 = _this.currentPlugins[0].custom.y + _this.currentPlugins[0].custom.height;
-
-		let i = 0;
-
-		for (let len = containerComponents.length; i < len; i++) {
-			const item = containerComponents[i];
-
-			const left1 = item.custom.x;
-			const right1 = item.custom.x + item.custom.width;
-
-			const top1 = item.custom.y;
-			const bottom1 = item.custom.y + item.custom.height;
-
-			// 计算重叠矩形宽度和高度
-			const areaW = (right1 - left1) + (right2 - left2) - (Math.max(right1, right2) - Math.min(left1, left2));
-			const areaH = (bottom1 - top1) + (bottom2 - top2) - (Math.max(bottom1, bottom2) - Math.min(top1, top2));
-			// 遮挡矩形面积
-			const area = areaW * areaH;
-			// 遮挡矩形面积大于等于 当前拖拽组件面积一半 就把当前组件添加到该容器中
-			if (areaW > 0 && areaH > 0 && area >= _this.currentPlugins[0].custom.width / 2 * _this.currentPlugins[0].custom.height) {
-				if ((item.id !== _this.currentPlugins[0].id) && !item.children.find(item => item.id === _this.currentPlugins[0].id)) {
-					_this.currentPlugins[0].custom.x = 0;
-					_this.currentPlugins[0].custom.y = 0;
-					_this.updatePluginsProps({ id: item.id, modify: { id: 'children', value: [...item.children, _this.currentPlugins[0]] } });
-					_this.currentPlugins[0].pid = item.id;
-					_this.delPluginFn(_this.currentPlugins[0]);
-					_this.updateCurrentPluginsFn(_this.currentPlugins);
-				}
-				break;
-			}
+	deactivatedFn(id) {
+		if (this.currentPlugins[0] && (this.currentPlugins[0].id == id)) {
+			this.resetCurrentPluginsFn();
 		}
 	}
+	// detectingContainerCompoents() {
+	// 	const containerComponents = _this.plugins.filter(item => item.key === 'kaContainerLayout');
+	// 	// 横向求重叠公式: (right1-left1)+(right2-left2) - ( max(right1,right2) - min(left1,left2) )
+	// 	const left2 = _this.currentPlugins[0].custom.x;
+	// 	const right2 = _this.currentPlugins[0].custom.x + _this.currentPlugins[0].custom.width;
+
+	// 	const top2 = _this.currentPlugins[0].custom.y;
+	// 	const bottom2 = _this.currentPlugins[0].custom.y + _this.currentPlugins[0].custom.height;
+
+	// 	let i = 0;
+
+	// 	for (let len = containerComponents.length; i < len; i++) {
+	// 		const item = containerComponents[i];
+
+	// 		const left1 = item.custom.x;
+	// 		const right1 = item.custom.x + item.custom.width;
+
+	// 		const top1 = item.custom.y;
+	// 		const bottom1 = item.custom.y + item.custom.height;
+
+	// 		// 计算重叠矩形宽度和高度
+	// 		const areaW = (right1 - left1) + (right2 - left2) - (Math.max(right1, right2) - Math.min(left1, left2));
+	// 		const areaH = (bottom1 - top1) + (bottom2 - top2) - (Math.max(bottom1, bottom2) - Math.min(top1, top2));
+	// 		// 遮挡矩形面积
+	// 		const area = areaW * areaH;
+	// 		// 遮挡矩形面积大于等于 当前拖拽组件面积一半 就把当前组件添加到该容器中
+	// 		if (areaW > 0 && areaH > 0 && area >= _this.currentPlugins[0].custom.width / 2 * _this.currentPlugins[0].custom.height) {
+	// 			if ((item.id !== _this.currentPlugins[0].id) && !item.children.find(item => item.id === _this.currentPlugins[0].id)) {
+	// 				_this.currentPlugins[0].custom.x = 0;
+	// 				_this.currentPlugins[0].custom.y = 0;
+	// 				_this.updatePluginsProps({ id: item.id, modify: { id: 'children', value: [...item.children, _this.currentPlugins[0]] } });
+	// 				_this.currentPlugins[0].pid = item.id;
+	// 				_this.delPluginFn(_this.currentPlugins[0]);
+	// 				_this.updateCurrentPluginsFn(_this.currentPlugins);
+	// 			}
+	// 			break;
+	// 		}
+	// 	}
+	// }
 	createLeftMenu(h) {
 		return <v-contextmenu ref="contextmenu">
 			{this.leftMenuList.map(item => {
@@ -139,7 +136,6 @@ class PageLayoutViewDefault extends Vue {
 		};
 
 		const currentPluginsId = this.currentPlugins && this.currentPlugins[0] && this.currentPlugins[0].id;
-
 		return <VueDraggableResizable
 			class={item.children ? 'designer-content-drag container-components' : 'designer-content-drag'}
 			key={item.id}
@@ -155,9 +151,9 @@ class PageLayoutViewDefault extends Vue {
 			parentSelector=".page-layout-view-default"
 			// drag-handle={item.children ? '.drag-handle' : ''}
 			onResizing={this.resizing}
-			onDragging={this.dragging}
+			// onDragging={this.dragging}
 			onActivated={() => this.activatedFn(item.id)}
-			onDeactivated={this.deactivatedFn}
+			onDeactivated={() => this.deactivatedFn(item.id)}
 		>
 			<div class="designer-content-drag-proxy" id={item.id} style={style}>
 				{h(item.key, { key: item.id, ref: item.id, props: { options: item.props, children: item.children, custom: item.custom }, directives: [{ name: 'contextmenu', arg: 'contextmenu' }] },
@@ -186,16 +182,17 @@ class PageLayoutViewDefault extends Vue {
 			};
 		};
 		if (this.isRuntime) {
-			return this.plugins.map(item => {
+			return this.plugins.sortArr.map(id => {
+				const item = this.plugins[id];
 				return (
-					item.pid ? undefined : <div id={item.id} style={getComponentStyle(item)}>
+					<div id={item.id} style={getComponentStyle(item)}>
 						{h(item.key, { key: item.id, ref: item.id, props: { options: item.props, children: item.children, custom: item.custom } },
 							item.children && item.children.map(cItem => h(cItem.key, { key: cItem.id, ref: cItem.id, props: { options: cItem.props, children: cItem.children, custom: cItem.custom } })))}
 					</div>
 				);
 			});
 		}
-		return this.plugins.map(item => { return item.pid ? undefined : this.createRoot(h, item) });
+		return this.plugins.sortArr.map(id => { return this.createRoot(h, this.plugins[id]); });
 	}
 	mounted() {
 		_this = this;

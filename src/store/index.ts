@@ -1,16 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { extend } from '@/utils/utils';
-import Page from '@/utils/page';
-const pageIns = new Page();
+import { uuid, extend } from '@/utils/utils';
+import page from '@/utils/page';
+const pageIns = page;
 
 (window.Uidesigner || (window.Uidesigner = {})) && (window.Uidesigner.pageIns = pageIns);
 Vue.use(Vuex);
 
 export default new Vuex.Store<any>({
 	state: {
-		page: pageIns.page[0], // 暂时不支持多页面 page类里面考虑了多页面
-		plugins: [],
+		page: pageIns, // 暂时不支持多页面 page类里面考虑了多页面
+		plugins: {
+			sortArr: []
+		},
 		currentPlugins: [],
 		perviewHtml: '',
 		defaultThemeColor: '#42b983',
@@ -19,22 +21,26 @@ export default new Vuex.Store<any>({
 	},
 	mutations: {
 		updatePageProps(state, options) {
-			state.page = pageIns.updatePage(options).page[0];
+			pageIns.updatePage(options);
 		},
 		addPlugin(state, options) {
-			state.plugins = pageIns.addPlugin({ pageId: state.page.id, options });
+			options.id = options.key + '_' + uuid();
+			state.plugins = pageIns.addPlugin(options);
+			state.currentPlugins = [state.plugins[options.id]];
 		},
 		delPlugin(state, id) {
-			state.plugins = pageIns.delPlugin({ pageId: state.page.id, pluginId: id });
+			state.plugins = pageIns.delPlugin(id);
 			state.currentPlugins = [];
 		},
 		updatePluginsProps(state, options) {
-			state.plugins = pageIns.updatePlugin({ pageId: state.page.id, options });
-			state.currentPlugins[0] && (state.currentPlugins = state.plugins.filter((item: any) => item.id === (state.currentPlugins[0]as any).id));
+			state.plugins = pageIns.updatePlugin(options);
+			state.currentPlugins[0] && (state.currentPlugins = [state.plugins[state.currentPlugins[0].id]]);
 		},
-		updateCurrentPlugins(state, options) {
+		updateCurrentPlugins(state, id) {
+			state.currentPlugins = extend(true, [], [state.plugins[id]]);
+		},
+		resetCurrentPlugins(state, opts) {
 			state.currentPlugins = [];
-			state.currentPlugins = extend(true, [], options);
 		},
 		setPerviewHtml(state, html) {
 			state.perviewHtml = html;

@@ -6,10 +6,11 @@ import pageFormView from '@/components/pageFormView/pageFormView.vue';
 import { State, Mutation } from 'vuex-class';
 import { Watch } from '@/modules/vuePropertyDecorator/vuePropertyDecorator';
 import { extend } from '@/utils/utils';
-import Configuration from '@/configuration/configuration';
+import page from '@/utils/page';
+import configuration from '@/configuration/configuration';
 import EventSetting from '@/components/eventSetting/eventSetting.vue';
 
-const componentConfig = new Configuration().getDefaultConfig();
+const componentConfig = configuration;
 
 @Component({
 	name: 'desigenerPage',
@@ -18,7 +19,6 @@ const componentConfig = new Configuration().getDefaultConfig();
 class DesigenerPage extends Vue {
 	@State('plugins') plugins;
 	@State('currentPlugins') currentPlugins;
-	@State('page') pageState;
 
 	@Mutation('updatePageProps') updatePageProps;
 	@Mutation('updatePluginsProps') updatePluginsProps;
@@ -28,21 +28,14 @@ class DesigenerPage extends Vue {
 	@Watch('plugins', { deep: true, immediate: true })
 	updateComponentsTree(newValue) {
 		this.componentList = [];
-		if (newValue && newValue.length) {
+		if (newValue) {
 			const add = (data) => {
 				const componentList = [];
-				data.map((item) => {
-					if(item.pid){
-						return;
-					}
-					if (item.children) {
-						componentList.push({
-							label: item.custom.name,
-							id: item.id,
-							isCurrent: true,
-							children: add(item.children)
-						});
+				data.map((id) => {
+					if (Array.isArray(id)) {
+						add(id);
 					} else {
+						const item = this.plugins[id];
 						componentList.push({
 							label: item.custom.name,
 							id: item.id,
@@ -53,7 +46,7 @@ class DesigenerPage extends Vue {
 				});
 				return componentList;
 			};
-			this.componentList = add(newValue).slice();
+			this.componentList = add(newValue.sortArr).slice();
 		}
 	}
 	@Watch('currentPlugins', { deep: true, immediate: true })
@@ -62,22 +55,16 @@ class DesigenerPage extends Vue {
 		const labels = ['尺寸', '位置', '样式配置'];
 		if (newValue[0]) {
 			newValue[0].options.map((item) => {
-				// 自适应布局
-				if (this.pageState.style.layoutStyle === '2') {
-					if (ids.indexOf(item.id) > -1 || labels.indexOf(item.label) > -1) {
-						item.hidden = true;
-					}
-				} else {
-					if (item && item.type === 'inputNumber' && item.options) {
-						item.id === 'custom.x' && (item.options.max = this.pageState.style.w);
-						item.id === 'custom.y' && (item.options.max = this.pageState.style.h);
-						item.id === 'custom.width' && (item.options.max = this.pageState.style.w);
-						item.id === 'custom.height' && (item.options.max = this.pageState.style.h);
-					}
-					if (item && (ids.indexOf(item.id) > -1 || labels.indexOf(item.label) > -1)) {
-						item.hidden = false;
-					}
+				if (item && item.type === 'inputNumber' && item.options) {
+					item.id === 'custom.x' && (item.options.max = page.style.w);
+					item.id === 'custom.y' && (item.options.max = page.style.h);
+					item.id === 'custom.width' && (item.options.max = page.style.w);
+					item.id === 'custom.height' && (item.options.max = page.style.h);
 				}
+				if (item && (ids.indexOf(item.id) > -1 || labels.indexOf(item.label) > -1)) {
+					item.hidden = false;
+				}
+
 			});
 			this.currentPluginOptions = extend(true, {}, newValue[0]);
 
@@ -97,26 +84,14 @@ class DesigenerPage extends Vue {
 			this.componentTabs = '1';
 		}
 	}
-	@Watch('pageState', { deep: true, immediate: true })
-	updatePage(newValue) {
-		if (this.pageState.style.layoutStyle === '2') {
-			newValue.options.map((item) => {
-				if (['style.w', 'style.h'].includes(item.id)) {
-					item.hidden = true;
-				}
-				if (item.type === 'tips') {
-					item.label = '提示:页面宽度将使用浏览器窗口大小';
-				}
-			});
-		} else {
-			newValue.options.map((item) => {
-				item.hidden = false;
-				if (item.type === 'tips') {
-					item.label = '提示:宽度大小建议为1920,1600,1366,1440,1280';
-				}
-			});
-		}
-		this.pageOptions = extend(true, {}, newValue);
+	updatePage() {
+		page.options.map((item) => {
+			item.hidden = false;
+			if (item.type === 'tips') {
+				item.label = '提示:宽度大小建议为1920,1600,1366,1440,1280';
+			}
+		});
+		this.pageOptions = extend(true, {}, page);
 	}
 
 	logo = require('../../assets/logo1.png');
@@ -137,14 +112,14 @@ class DesigenerPage extends Vue {
 	}
 
 	componentNodeClick(nodeObj) {
-		this.updateCurrentPluginsCb(this.plugins.filter((item) => item.id === nodeObj.id));
+		this.updateCurrentPluginsCb(nodeObj.id);
 	}
 
 	updatePageFn(data) {
 		// 切换布局方式 重置选中组件, 让右侧属性面板重新刷新
-		if (data.modify.id === 'style.layoutStyle') {
-			this.updateCurrentPluginsCb([]);
-		}
+		// if (data.modify.id === 'style.layoutStyle') {
+		// 	this.updateCurrentPluginsCb([]);
+		// }
 		this.updatePageProps(data);
 	}
 
@@ -217,7 +192,7 @@ class DesigenerPage extends Vue {
 
 	mounted() {
 		const obj = {};
-		componentConfig.map((item) => {
+		componentConfig.options.map((item) => {
 			if (item.type) {
 				if (!obj[item.type]) {
 					obj[item.type] = [];
@@ -236,11 +211,12 @@ class DesigenerPage extends Vue {
 			const minW = $$desigenerPage.offsetWidth;
 			const minH = $$desigenerPage.offsetHeight;
 			// 当前屏幕尺寸大于页面设置默认值就使用当前屏幕值作为默认值使用
-			if (this.pageState.style.w < minW || this.pageState.style.h < minH) {
+			if (page.style.w < minW || page.style.h < minH) {
 				this.updatePageProps({
-					id: this.pageState.id,
-					modify: { id: 'style', value: Object.assign({}, this.pageState.style, { w: minW, h: minH }) }
+					id: page.id,
+					modify: { id: 'style', value: Object.assign({}, page.style, { w: minW, h: minH }) }
 				});
+				this.updatePage();
 			}
 		});
 	}

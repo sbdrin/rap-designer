@@ -14,7 +14,6 @@ import { uuid } from '@/utils/utils';
 	}
 })
 class ComponentsList extends Vue {
-	// componentsList = new Configuration().getDefaultConfig()
 
 	createComponentsItem(h) {
 		let items = [];

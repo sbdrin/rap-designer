@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { State, Mutation } from 'vuex-class';
-import PageLayoutViewAuto from '@/components/pageLayoutView/pageLayoutViewAuto.vue';
 import PageLayoutViewDefault from '@/components/pageLayoutView/pgaeLayoutViewDefault.vue';
 
 @Component({})
@@ -13,8 +12,8 @@ export default class Perview extends Vue {
 	logo = require('../../assets/logo1.png');
 	get perviewHtmlStyle() {
 		return {
-			width: this.page.style.layoutStyle === '1' ? this.page.style.w/20 + 'rem' : '100%',
-			height: this.page.style.layoutStyle === '1' ? this.page.style.h/20 + 'rem' : '100%',
+			width: this.page.style.layoutStyle === '1' ? this.page.style.w / 20 + 'rem' : '100%',
+			height: this.page.style.layoutStyle === '1' ? this.page.style.h / 20 + 'rem' : '100%',
 			background: this.page.style.background,
 			margin: '0 auto'
 		};
@@ -71,8 +70,7 @@ export default class Perview extends Vue {
 	}
 	getPage(h) {
 		const LayoutView = {
-			1: (h) => <PageLayoutViewDefault isRuntime />,
-			2: (h) => <PageLayoutViewAuto children={this.plugins} isRuntime />
+			1: (h) => <PageLayoutViewDefault isRuntime />
 		};
 
 		if (LayoutView[this.page.style.layoutStyle]) return LayoutView[this.page.style.layoutStyle](h);
