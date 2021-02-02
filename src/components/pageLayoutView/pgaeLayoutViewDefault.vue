@@ -218,6 +218,9 @@ export default PageLayoutViewDefault;
 .page-layout-view-default {
 	width: 100%;
 	height: 100%;
+	.dragging {
+		z-index: 99!important;
+	}
 }
 </style>
 
