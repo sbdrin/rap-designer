@@ -26,6 +26,7 @@
 								   customClassName="desigener-page-layout-left--scrollbar">
 						<el-tree ref="componentTree"
 								 node-key="id"
+								 default-expand-all
 								 :data="componentList"
 								 :highlight-current="true"
 								 @node-click="componentNodeClick"></el-tree>
@@ -105,8 +106,8 @@
 import desigenerPage from './desigenerPage.class';
 export default desigenerPage;
 </script>
-<style lang="scss">
-.desigener {
+<style lang="scss" scoped>
+::v-deep .desigener {
 	&-page {
 		overflow: hidden;
 		padding-left: 200px;
@@ -178,19 +179,15 @@ export default desigenerPage;
 			padding: 0 0 10px 0;
 			overflow: hidden;
 		}
-		.el-tree-node__children {
+		.el-tree {
 			.is-checked {
-				background-color: #fff !important;
+				background-color: transparent !important;
 				color: #606266 !important;
 			}
-		}
-		.is-checked .el-tree-node__content:hover {
-			color: #606266 !important;
-		}
-		.el-tree--highlight-current
-			.el-tree-node.is-current
-			> .el-tree-node__content {
-			background: transparent;
+			.is-current > .el-tree-node__content {
+				background-color: #d8f7e9 !important;
+				color: #606266 !important;
+			}
 		}
 		.vue-grid-item {
 			outline: 1px solid #dcdee2;

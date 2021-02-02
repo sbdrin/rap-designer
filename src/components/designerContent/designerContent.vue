@@ -9,7 +9,6 @@ import VueDraggableResizable from '@/components/draggableResizable/draggableResi
 import pageCanvas from '@/components/pageCanvas/pageCanvas.vue';
 import { uuid, throttle, extend, toLine } from '@/utils/utils';
 import page from '@/utils/page';
-import { Watch } from '@/modules/vuePropertyDecorator/vuePropertyDecorator';
 import PageEventManage from '@/modules/pageEventManage/pageEventManage';
 import PageLayoutViewDefault from '@/components/pageLayoutView/pgaeLayoutViewDefault.vue';
 

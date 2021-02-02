@@ -25,29 +25,9 @@ class DesigenerPage extends Vue {
 	@Mutation('setPerviewHtml') setPerviewHtml;
 	@Mutation('updateCurrentPlugins') updateCurrentPluginsCb;
 
-	@Watch('plugins', { deep: true, immediate: true })
+	@Watch('plugins.sortArr', { deep: true, immediate: true })
 	updateComponentsTree(newValue) {
-		this.componentList = [];
-		if (newValue) {
-			const add = (data) => {
-				const componentList = [];
-				data.map((id) => {
-					if (Array.isArray(id)) {
-						add(id);
-					} else {
-						const item = this.plugins[id];
-						componentList.push({
-							label: item.custom.name,
-							id: item.id,
-							isCurrent: true
-						});
-					}
-					return componentList;
-				});
-				return componentList;
-			};
-			this.componentList = add(newValue.sortArr).slice();
-		}
+		this.componentList = extend(true, [], newValue);
 	}
 	@Watch('currentPlugins', { deep: true, immediate: true })
 	updateCurrentPluginsFn(newValue, oldValue) {
@@ -73,13 +53,16 @@ class DesigenerPage extends Vue {
 				copyCurrentPluginOptions.options = copyCurrentPluginOptions.custom.dataConfig;
 				this.dataSettingCurrentPluginOptions = extend(true, {}, copyCurrentPluginOptions);
 			}
-
-			this.$refs.componentTree && this.$refs.componentTree.setCheckedKeys(newValue.map((item) => item.id));
+			this.$nextTick(() => {
+				this.$refs.componentTree && this.$refs.componentTree.setCurrentKey(newValue.find((item) => item.id));
+			});
 			this.collapseValue = '2';
 		} else {
 			this.currentPluginOptions = {};
 			this.dataSettingCurrentPluginOptions = {};
-			this.$refs.componentTree && this.$refs.componentTree.setCheckedKeys([]);
+			this.$nextTick(() => {
+				this.$refs.componentTree && this.$refs.componentTree.setCurrentKey();
+			});
 			this.collapseValue = '1';
 			this.componentTabs = '1';
 		}

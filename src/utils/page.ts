@@ -10,7 +10,7 @@ class Page extends Observer {
 	style: any = Object.assign({}, DEFALUT_CONFIG.style)
 	options: any = DEFALUT_CONFIG.options;
 	plugins: { 
-		sortArr: Array<string>;
+		sortArr: Array<any>;
 		[key: string]: any;
 		} = { sortArr: [] };
 	/** 
@@ -31,32 +31,41 @@ class Page extends Observer {
 		if(!data.id) {
 			data.id = data.key + '_' + uuid();
 		  }
-		this.plugins.sortArr.push(data.id);
+		this.plugins.sortArr.push({ id: data.id, label: data.custom.name });
 		this.plugins[data.id] = data;
 		return this.plugins;
 	}
-	_delPlugin(id: string, arr: Array<any>): boolean{
-		for(const i in arr){
-			const _id = arr[i];
-			if(_id == id){
-				arr.splice(+i, 1);
-				return false;
-			}else if(typeof _id == 'object'){
-				return this._delPlugin(id, _id);
-			}
-		}
-		return true;
-	}
 	delPlugin(id: string) {
 		delete this.plugins['' + id];
-		this._delPlugin(id, this.plugins.sortArr);
+		this._findPlugin(id, this.plugins.sortArr, true);
 		return this.plugins;
 	}
+	_findPlugin(id: any, arr: Array<any>, willRemove?: boolean): any{
+		for(const i in arr){
+			const item = arr[i];
+			if(item.id == id){
+				willRemove && arr.splice(+i, 1);
+				return item;
+			}else if(item.children){
+				const result = this._findPlugin(id, item.children, willRemove);
+				if(result){
+					return result;
+				}
+			}
+		}
+	}
 	updatePlugin(option: { id: string; modify: any}) {
+		if(option.modify.id == 'children'){
+			this._findPlugin(option.modify.value[0].id, this.plugins.sortArr, true);
+			const item = this._findPlugin(option.id, this.plugins.sortArr);
+			item.children = extend(true, [], [{ id: option.modify.value[0].id, label: option.modify.value[0].custom.name }]);
+			return this.plugins;
+		}
 		const plugin = this.plugins[option.id];
 		const ary: any = option.modify.id.match(/\w+|\d+/g);
 		const last = ary.pop();
 		const obj = ary.reduce((a: { [x: string]: any }, b: string | number) => a[b], plugin);
+		
 		if (obj) {
 			obj[last] = option.modify.value;
 		}
