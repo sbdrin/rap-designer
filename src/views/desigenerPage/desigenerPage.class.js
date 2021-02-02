@@ -44,7 +44,6 @@ class DesigenerPage extends Vue {
 				if (item && (ids.indexOf(item.id) > -1 || labels.indexOf(item.label) > -1)) {
 					item.hidden = false;
 				}
-
 			});
 			this.currentPluginOptions = extend(true, {}, newValue[0]);
 

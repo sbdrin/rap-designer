@@ -30,6 +30,7 @@ export default new Vuex.Store<any>({
 		},
 		delPlugin(state, id) {
 			state.plugins = pageIns.delPlugin(id);
+			state.plugins.sortArr = [].concat(state.plugins.sortArr);
 			state.currentPlugins = [];
 		},
 		updatePluginsProps(state, options) {

@@ -20,56 +20,56 @@ export const basisCommonConfig = {
 			x: 0,
 			y: 0,
 			w: 24,
-			h: 2,
+			h: 2
 		},
 		// 联动事件配置
 		linkageEventConfig: [
 			{
 				id: 'setDisplay',
-				label: '获取组件显示隐藏',
-			},
+				label: '获取组件显示隐藏'
+			}
 		],
 		// 组件事件配置
 		eventConfig: [
 			{
 				eventType: '1',
 				eventName: 'created',
-				eventDes: '组件实例初始化完成',
+				eventDes: '组件实例初始化完成'
 			},
 			{
 				eventType: '1',
 				eventName: 'mounted',
-				eventDes: '组件元素挂载完成',
+				eventDes: '组件元素挂载完成'
 			},
 			{
 				eventType: '3',
 				eventName: 'customEvent',
-				eventDes: '组件自定义事件',
-			},
+				eventDes: '组件自定义事件'
+			}
 		],
-		eventListener: {}, // 组件监听事件数据
+		eventListener: {} // 组件监听事件数据
 	},
 	options: [
 		{
 			label: '组件信息',
-			type: 'title',
+			type: 'title'
 		},
 		{
 			id: 'custom.id',
 			label: '组件ID',
 			type: 'input',
 			options: {
-				disabled: true,
-			},
+				disabled: true
+			}
 		},
 		{
 			id: 'custom.name',
 			label: '组件名',
-			type: 'input',
+			type: 'input'
 		},
 		{
 			label: '尺寸',
-			type: 'title',
+			type: 'title'
 		},
 		{
 			id: 'custom.width',
@@ -83,7 +83,7 @@ export const basisCommonConfig = {
 		},
 		{
 			label: '位置',
-			type: 'title',
+			type: 'title'
 		},
 		{
 			id: 'custom.x',
@@ -91,8 +91,8 @@ export const basisCommonConfig = {
 			type: 'inputNumber',
 			options: {
 				min: 0,
-				max: 1920,
-			},
+				max: 1920
+			}
 		},
 		{
 			id: 'custom.y',
@@ -100,12 +100,12 @@ export const basisCommonConfig = {
 			type: 'inputNumber',
 			options: {
 				min: 0,
-				max: 850,
-			},
+				max: 850
+			}
 		},
 		{
 			label: '样式配置',
-			type: 'title',
+			type: 'title'
 		},
 		{
 			id: 'style.position',
@@ -114,41 +114,41 @@ export const basisCommonConfig = {
 			list: [
 				{
 					label: '无',
-					value: 'static',
+					value: 'static'
 				},
 				{
 					label: '相对定位',
-					value: 'relative',
+					value: 'relative'
 				},
 				{
 					label: '绝对定位',
-					value: 'absolute',
+					value: 'absolute'
 				}]
 		},
 		{
 			id: 'style.paddingTop',
 			label: '内边距-上',
-			type: 'inputNumber',
+			type: 'inputNumber'
 		},
 		{
 			id: 'style.paddingBottom',
 			label: '内边距-下',
-			type: 'inputNumber',
+			type: 'inputNumber'
 		},
 		{
 			id: 'style.paddingLeft',
 			label: '内边距-左',
-			type: 'inputNumber',
+			type: 'inputNumber'
 		},
 		{
 			id: 'style.paddingRight',
 			label: '内边距-右',
-			type: 'inputNumber',
+			type: 'inputNumber'
 		},
 		{
 			id: 'style.borderWidth',
 			label: '边框宽度',
-			type: 'inputNumber',
+			type: 'inputNumber'
 		},
 		{
 			id: 'style.borderStyle',
@@ -157,37 +157,37 @@ export const basisCommonConfig = {
 			list: [
 				{
 					label: '无',
-					value: 'none',
+					value: 'none'
 				},
 				{
 					label: '直线',
-					value: 'solid',
+					value: 'solid'
 				},
 				{
 					label: '虚线',
-					value: 'dashed',
+					value: 'dashed'
 				},
 				{
 					label: '圆点线',
-					value: 'dotted',
+					value: 'dotted'
 				},
 				{
 					label: '双实线',
-					value: 'double',
-				},
-			],
+					value: 'double'
+				}
+			]
 		},
 		{
 			id: 'style.borderColor',
 			label: '边框颜色',
-			type: 'color',
+			type: 'color'
 		},
 		{
 			id: 'style.backgroundColor',
 			label: '背景颜色',
-			type: 'color',
-		},
-	],
+			type: 'color'
+		}
+	]
 };
 
 export default basisCommonConfig;
