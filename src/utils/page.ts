@@ -59,7 +59,7 @@ class Page extends Observer {
 		if(option.modify.id == 'children'){
 			this._findPlugin(option.modify.value[0].id, this.plugins.sortArr, true);
 			const item = this._findPlugin(option.id, this.plugins.sortArr);
-			item.children = extend(true, [], [{ id: option.modify.value[0].id, label: option.modify.value[0].custom.name }]);
+			item.children = (item.children || []).concat([{ id: option.modify.value[0].id, label: option.modify.value[0].custom.name }]);
 			return this.plugins;
 		}
 		const plugin = this.plugins[option.id];
