@@ -123,7 +123,7 @@ class PageLayoutViewDefault extends Vue {
 	}
 	createRoot(h, sItem) {
 		const item = this.plugins[sItem.id];
-		if(!item){
+		if (!item) {
 			debugger;
 		}
 		const style = {
@@ -163,9 +163,8 @@ class PageLayoutViewDefault extends Vue {
 			</div>
 		</VueDraggableResizable>;
 	}
-	createComponentsItems(h) {
+	createComponentsItems(h, sItems) {
 		const getComponentStyle = (item) => {
-
 			return {
 				paddingTop: item.style.paddingTop / 20 + 'rem',
 				paddingBottom: item.style.paddingBottom / 20 + 'rem',
@@ -184,13 +183,15 @@ class PageLayoutViewDefault extends Vue {
 			};
 		};
 		if (this.isRuntime) {
-			return this.plugins.sortArr.map(sItem => {
+			sItems = sItems || this.plugins.sortArr;
+			return sItems.map(sItem => {
 				const item = this.plugins[sItem.id];
 				return (
 					<div id={item.id} style={getComponentStyle(item)}>
-						{h(item.key, { key: item.id, ref: item.id, props: { options: item.props, children: item.children, custom: item.custom } },
-							item.children && item.children.map(cItem => h(cItem.key, { key: cItem.id, ref: cItem.id, props: { options: cItem.props, children: sItem.children, custom: cItem.custom } })))}
+						{h(item.key, { key: item.id, ref: item.id, props: { options: item.props, children: sItem.children, custom: item.custom } },
+							sItem.children && this.createComponentsItems(h, sItem.children))}
 					</div>
+
 				);
 			});
 		}

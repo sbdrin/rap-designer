@@ -105,12 +105,8 @@ export default {
 </script>
 
 <style lang="scss">
-.xa-container-layout {
-	.vue-grid-item {
-		overflow: auto;
-	}
-	.vue-grid-item > .vue-resizable-handle {
-		z-index: 1;
-	}
+.ka-container-layout {
+	position: relative;
+	overflow: hidden;
 }
 </style>
