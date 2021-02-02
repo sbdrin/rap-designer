@@ -30,7 +30,8 @@ class Page extends Observer {
 	addPlugin(data: any) {
 		if(!data.id) {
 			data.id = data.key + '_' + uuid();
-		  }
+		}
+		data.custom.id = data.id;
 		this.plugins.sortArr.push({ id: data.id, label: data.custom.name });
 		this.plugins[data.id] = data;
 		return this.plugins;

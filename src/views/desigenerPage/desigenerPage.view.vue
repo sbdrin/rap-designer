@@ -106,8 +106,8 @@
 import desigenerPage from './desigenerPage.class';
 export default desigenerPage;
 </script>
-<style lang="scss" scoped>
-::v-deep .desigener {
+<style lang="scss">
+.desigener {
 	&-page {
 		overflow: hidden;
 		padding-left: 200px;
